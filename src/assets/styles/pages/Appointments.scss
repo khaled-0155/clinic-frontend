@@ -1,0 +1,25 @@
+.appointments-page {
+  padding: 20px;
+
+  .ant-card {
+    border-radius: 12px;
+  }
+
+  .filters-row {
+    margin-bottom: 20px;
+  }
+
+  .appointments-table {
+    margin-top: 10px;
+
+    .ant-table-thead > tr > th {
+      font-weight: 600;
+    }
+  }
+
+  .pagination-wrapper {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

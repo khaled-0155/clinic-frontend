@@ -1,0 +1,36 @@
+.login-page {
+  position: relative;
+  height: 100vh;
+  background: url("/clinic-bg.jpg") no-repeat center center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45); // dark overlay for readability
+}
+
+.login-card {
+  position: relative;
+  width: 420px;
+  padding: 30px 25px;
+  border-radius: 18px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.logo {
+  width: 80px;
+  height: auto;
+}

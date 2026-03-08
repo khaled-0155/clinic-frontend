@@ -1,0 +1,14 @@
+// @import "variables";
+@use "./pages/_pages";
+@use "./components/_components";
+@use "layout.scss";
+
+body {
+  font-family: "Cairo", sans-serif;
+  background-color: #f5f7fa;
+  margin: 0 auto;
+}
+
+[dir="rtl"] {
+  text-align: right;
+}

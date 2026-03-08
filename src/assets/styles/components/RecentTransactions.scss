@@ -1,0 +1,68 @@
+.recent-transactions-widget {
+  border-radius: 12px;
+  height: 100%;
+  .transactions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .transaction-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .transaction-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .transaction-logo {
+    width: 40px;
+    height: 40px;
+    background: #f1f5f9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 22px;
+    }
+  }
+
+  .transaction-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .transaction-title {
+    font-weight: 600;
+    color: #0f172a;
+  }
+
+  .transaction-invoice {
+    font-size: 13px;
+    color: #4f46e5;
+  }
+
+  .transaction-amount {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+
+    &.income {
+      background: #22c55e;
+      color: white;
+    }
+
+    &.expense {
+      background: #ef4444;
+      color: white;
+    }
+  }
+}

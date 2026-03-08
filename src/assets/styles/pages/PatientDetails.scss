@@ -1,0 +1,37 @@
+.patient-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .patient-header {
+    .ant-vard-body {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 12px;
+    }
+
+    .patient-main {
+      h2 {
+        margin: 0;
+        font-weight: 600;
+      }
+
+      p {
+        margin: 0;
+        color: #888;
+      }
+    }
+
+    .patient-meta {
+      font-size: 14px;
+      color: #666;
+    }
+  }
+
+  .patient-tabs {
+    .ant-tabs-tab {
+      font-weight: 500;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+.transactions-page {
+  padding: 20px;
+
+  .filters {
+    margin-bottom: 20px;
+  }
+
+  .ant-table {
+    overflow-x: auto;
+  }
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  .ant-table {
+    direction: rtl;
+  }
+
+  .filters {
+    flex-direction: row-reverse;
+  }
+}

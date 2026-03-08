@@ -1,0 +1,272 @@
+.filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+
+  .ant-input,
+  .ant-select {
+    flex: 1;
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+
+    .ant-input,
+    .ant-select {
+      width: 100%;
+    }
+  }
+
+  .ant-table {
+    font-size: 13px;
+  }
+}
+
+.doctor-details-page {
+  padding: 20px;
+
+  .doctor-header {
+    border-radius: 12px;
+  }
+
+  .consultation-box {
+    text-align: right;
+
+    h4 {
+      margin: 8px 0;
+    }
+  }
+
+  .availability-slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .about-item {
+    margin-bottom: 16px;
+  }
+}
+
+.availability-card {
+  .availability-filter {
+    margin-bottom: 20px;
+  }
+
+  .day-column {
+    background: #f9fafb;
+    padding: 12px;
+    border-radius: 10px;
+    min-height: 120px;
+
+    h5 {
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .availability-tag {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 8px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+
+      .delete-icon {
+        margin-left: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        color: #ff4d4f;
+      }
+    }
+  }
+}
+
+.doctor-schedule-drawer {
+  .ant-drawer-header {
+    background: #f8fafc;
+  }
+
+  .schedule-list {
+    margin-top: 30px;
+
+    .ant-list-item {
+      background: #fafafa;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      transition: 0.2s;
+
+      &:hover {
+        background: #f0f5ff;
+      }
+    }
+  }
+
+  .ant-btn-primary {
+    height: 42px;
+    font-weight: 500;
+    border-radius: 8px;
+  }
+}
+
+.schedule-item {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  transition: 0.2s ease;
+
+  &:hover {
+    background: #f0f5ff;
+  }
+}
+
+.schedule-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.schedule-description {
+  font-size: 13px;
+  margin-top: 6px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.status-active {
+  color: #16a34a;
+  font-weight: 500;
+}
+
+.status-inactive {
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.doctor-schedule-display {
+  .availability-filter {
+    margin-bottom: 20px;
+  }
+
+  .day-column {
+    background: #fafafa;
+    padding: 16px;
+    border-radius: 10px;
+    min-height: 140px;
+    transition: 0.2s ease;
+
+    &:hover {
+      background: #f0f5ff;
+    }
+  }
+
+  .day-title {
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .availability-tag {
+    display: block;
+    margin-bottom: 8px;
+    text-align: center;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #e6f4ff;
+    border: 1px solid #91caff;
+    font-weight: 500;
+  }
+
+  .empty-day {
+    opacity: 0.4;
+    margin-top: 10px;
+  }
+}
+
+.doctor-schedule {
+  .doctor-info-card {
+    margin-bottom: 24px;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .schedule-grid {
+    margin-top: 10px;
+  }
+
+  .day-column {
+    background: #ffffff;
+    border-radius: 12px;
+    min-height: 180px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+
+    .ant-typography {
+      text-align: center;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+  }
+
+  .slot-card {
+    background: #f9fafc;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid #f0f0f0;
+
+    .slot-time {
+      font-weight: 600;
+      color: #1677ff;
+    }
+
+    .slot-branch {
+      line-height: 1.3;
+    }
+
+    .ant-tag {
+      width: fit-content;
+    }
+  }
+}
+.doctor-details-page {
+  &.rtl {
+    direction: rtl;
+    text-align: right;
+  }
+
+  .doctor-header-card {
+    border-radius: 14px;
+  }
+
+  .stat-card {
+    text-align: center;
+    border-radius: 14px;
+
+    .stat-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .blue {
+      color: #1677ff;
+    }
+    .green {
+      color: #52c41a;
+    }
+    .orange {
+      color: #fa8c16;
+    }
+  }
+
+  .appointment-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+}

@@ -1,0 +1,27 @@
+.lang-selector {
+  min-width: 120px;
+}
+
+.lang-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  img {
+    width: 20px;
+    height: 14px;
+    border-radius: 3px;
+    object-fit: cover;
+  }
+
+  span {
+    font-size: 14px;
+  }
+}
+
+/* RTL handling */
+html[dir="rtl"] {
+  .lang-item {
+    flex-direction: row-reverse;
+  }
+}
