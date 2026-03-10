@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Button, Input, List, Card } from "antd";
+import { Button, Card, Input, List } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import patientsService from "../../services/patients.service";
@@ -27,19 +27,6 @@ const PatientNotes = ({ patientId }) => {
 
   return (
     <div>
-      <Card style={{ marginBottom: 16 }}>
-        <TextArea
-          rows={3}
-          placeholder={t("add_note")}
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-        />
-
-        <Button type="primary" style={{ marginTop: 8 }} onClick={addNote}>
-          {t("save")}
-        </Button>
-      </Card>
-
       <List
         dataSource={data || []}
         renderItem={(item) => (
@@ -52,6 +39,19 @@ const PatientNotes = ({ patientId }) => {
           </List.Item>
         )}
       />
+
+      <Card style={{ marginBottom: 16 }}>
+        <TextArea
+          rows={3}
+          placeholder={t("add_note")}
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+        />
+
+        <Button type="primary" style={{ marginTop: 8 }} onClick={addNote}>
+          {t("save")}
+        </Button>
+      </Card>
     </div>
   );
 };

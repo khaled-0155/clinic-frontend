@@ -72,14 +72,17 @@ const patientsService = {
       params,
     }),
 
-  // --------------------------------
-  // Patient Notes
-  // --------------------------------
-
   getNotes: (patientId) =>
     apiRequest({
       method: "get",
       url: `${API_URL}/${patientId}/notes`,
+    }),
+
+  getPatientProgress: (patientId, page = 1) =>
+    apiRequest({
+      method: "get",
+      url: `${API_URL}/${patientId}/progress`,
+      params: { page, limit: 5 },
     }),
 
   addNote: (patientId, data) =>

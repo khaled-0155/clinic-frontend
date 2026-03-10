@@ -1,6 +1,7 @@
 import {
   CalendarOutlined,
   EditOutlined,
+  FileTextOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -27,6 +28,8 @@ import PatientNotes from "../components/patient/PatientNotes";
 import PatientPackages from "../components/patient/PatientPackages";
 import PatientSessions from "../components/patient/PatientSessions";
 
+import PatientMedicalRecords from "../components/patient/PatientMedicalRecords";
+import PatientProgress from "../components/patient/PatientProgress";
 import PatientForm from "../components/PatientForm";
 import patientsService from "../services/patients.service";
 
@@ -112,7 +115,7 @@ const PatientDetails = () => {
       </Card>
 
       {/* Packages + Sessions */}
-      <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
+      <Row gutter={[16, 16]}>
         <Col xs={24} lg={10}>
           <Card
             title={t("packages")}
@@ -145,13 +148,27 @@ const PatientDetails = () => {
             {t("book_appointment")}
           </Button>
         }
-        style={{ marginTop: 16 }}
       >
         <PatientAppointments patientId={id} />
       </Card>
 
+      <Card
+        title={
+          <Space>
+            <FileTextOutlined />
+            {t("medical_records")}
+          </Space>
+        }
+      >
+        <PatientMedicalRecords patientId={id} />
+      </Card>
+
+      <Card title={t("progress_history")}>
+        <PatientProgress patientId={id} />
+      </Card>
+
       {/* Notes */}
-      <Card title={t("notes")} style={{ marginTop: 16 }}>
+      <Card title={t("notes")}>
         <PatientNotes patientId={id} />
       </Card>
 

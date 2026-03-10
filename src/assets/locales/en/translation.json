@@ -262,5 +262,58 @@
   "time": "Time",
   "progress": "Progress",
   "myProfile": "My Profile",
-  "logout": "Logout"
+  "logout": "Logout",
+  "diagnosis": "Diagnosis",
+  "view_record": "View Record",
+  "add_diagnosis": "Add Diagnosis",
+  "action": "Action",
+  "edit_diagnosis": "Edit Diagnosis",
+  "treatment": "Treatment",
+  "prescription": "Prescription",
+  "appointment_details": "Appointment Details",
+  "appointment": "Appointment",
+  "payment": "Payment",
+  "medical_record": "Medical Record",
+
+  "booked": "Booked",
+  "completed": "Completed",
+  "cancelled": "Cancelled",
+  "view_details": "View Details",
+  "add_medical_record": "Add Medical Record",
+
+  "edit_medical_record": "Edit Medical Record",
+
+  "cancel": "Cancel",
+  "medical_records": "Medical Records",
+
+  "treatment_plan": "Treatment Plan",
+  "clinical_notes": "Clinical Notes",
+
+  "appointment_date": "Appointment Date",
+  "appointment_time": "Appointment Time",
+
+  "record_created_success": "Medical record saved successfully",
+  "record_updated_success": "Medical record updated successfully",
+
+  "no_medical_records": "No medical records available",
+
+  "enter_diagnosis": "Enter diagnosis",
+  "enter_treatment": "Enter treatment plan",
+  "enter_prescription": "Enter prescription",
+  "additional_notes": "Additional notes",
+
+  "save_record": "Save Record",
+  "update_record": "Update Record",
+  "no_medical_record": "No medical record available",
+  "pain_level": "Pain Level",
+  "mobility_score": "Mobility Score",
+  "progress_notes": "Progress Notes",
+  "no_progress_record": "No progress recorded",
+  "progress_saved_success": "Progress saved successfully",
+  "progress_updated_success": "Progress updated successfully",
+  "progress_save_failed": "Failed to save progress",
+  "progress_update_failed": "Failed to update progress",
+  "progress_history": "Progress History",
+
+  "no_progress": "No progress records"
 }

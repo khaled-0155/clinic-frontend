@@ -10,6 +10,12 @@ const appointmentsService = {
       params,
     }),
 
+  getAppointmentById: (id) =>
+    apiRequest({
+      method: "get",
+      url: `${API_URL}/${id}`,
+    }),
+
   getSlots: (params) =>
     apiRequest({
       method: "get",
@@ -42,6 +48,26 @@ const appointmentsService = {
     apiRequest({
       method: "delete",
       url: `${API_URL}/${id}`,
+    }),
+
+  getProgress: (appointmentId) =>
+    apiRequest({
+      method: "get",
+      url: `${API_URL}/${appointmentId}/progress`,
+    }),
+
+  addProgress: (appointmentId, data) =>
+    apiRequest({
+      method: "post",
+      url: `${API_URL}/${appointmentId}/progress`,
+      data,
+    }),
+
+  updateProgress: (appointmentId, data) =>
+    apiRequest({
+      method: "patch",
+      url: `${API_URL}/${appointmentId}/progress`,
+      data,
     }),
 };
 
