@@ -87,6 +87,7 @@ export default function AppointmentForm({
     data: slotsResp,
     refetch: refetchSlots,
     isFetching,
+    error,
   } = useQuery({
     queryKey: ["slots", doctorId, branchId, formattedDate],
     queryFn: () => {
@@ -103,6 +104,8 @@ export default function AppointmentForm({
     enabled: !!doctorId && !!branchId && !!formattedDate,
     keepPreviousData: true,
   });
+
+  console.log("slotsResp", error);
 
   const selectedPatientId = Form.useWatch("patientId", form);
 

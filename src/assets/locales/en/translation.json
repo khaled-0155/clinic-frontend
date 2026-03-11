@@ -315,5 +315,9 @@
   "progress_update_failed": "Failed to update progress",
   "progress_history": "Progress History",
 
-  "no_progress": "No progress records"
+  "no_progress": "No progress records",
+  "Delete": "Delete",
+  "DeleteAppointment": "Delete Appointment",
+  "DeleteAppointmentConfirm": "Are you sure you want to delete this appointment?",
+  "AppointmentDeleted": "Appointment deleted successfully"
 }

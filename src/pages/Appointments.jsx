@@ -1,4 +1,9 @@
-import { MoreOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  DeleteOutlined,
+  MoreOutlined,
+} from "@ant-design/icons";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   Button,
@@ -21,6 +26,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useNavigate } from "react-router-dom";
+import RoleGuard from "../app/RoleGaurd";
 import AppointmentForm from "../components/AppointmentForm";
 import appointmentsService from "../services/appointments.service";
 
@@ -67,6 +73,19 @@ export default function Appointments() {
       message.success(t("StatusUpdated"));
       setStatusModal(false);
       setNote("");
+      refetch();
+    },
+
+    onError: () => {
+      message.error(t("error"));
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id) => appointmentsService.deleteAppointment(id),
+
+    onSuccess: () => {
+      message.success(t("AppointmentDeleted"));
       refetch();
     },
 
@@ -135,30 +154,45 @@ export default function Appointments() {
     {
       title: t("Actions"),
       render: (_, record) => {
-        const items = [
-          {
-            key: "edit",
-            label: t("Edit"),
-            onClick: () => {
-              setSelectedAppointment(record);
-              setDrawerOpen(true);
-            },
-          },
-        ];
+        const items = [];
 
         if (record.status === "BOOKED") {
           items.push(
             {
               key: "complete",
+              icon: <CheckCircleOutlined style={{ color: "green" }} />,
               label: t("Complete"),
               onClick: () => openStatusModal(record, "COMPLETED"),
             },
             {
               key: "cancel",
+              icon: <CloseCircleOutlined style={{ color: "red" }} />,
               label: <span style={{ color: "red" }}>{t("Cancel")}</span>,
               onClick: () => openStatusModal(record, "CANCELLED"),
             },
           );
+        }
+
+        if (["BOOKED", "CANCELLED"].includes(record.status)) {
+          items.push({
+            key: "delete",
+            icon: <DeleteOutlined style={{ color: "red" }} />,
+            label: (
+              <RoleGuard allow="ADMIN">
+                <span style={{ color: "red" }}>{t("Delete")}</span>
+              </RoleGuard>
+            ),
+            onClick: () => {
+              Modal.confirm({
+                title: t("DeleteAppointment"),
+                content: t("DeleteAppointmentConfirm"),
+                okText: t("Delete"),
+                okType: "danger",
+                cancelText: t("Cancel"),
+                onOk: () => deleteMutation.mutate(record.id),
+              });
+            },
+          });
         }
 
         return (

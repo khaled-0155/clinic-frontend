@@ -16,13 +16,15 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
-
 import { useTranslation } from "react-i18next";
+
 import { WEEK_DAYS } from "../constants/weekDays";
 import branchesService from "../services/branches.service";
 import schedulesService from "../services/schedules.service";
 import usersService from "../services/users.service";
 import { getWeekdayKey } from "../utils/getWeekdayKey";
+
+const SLOT_OPTIONS = [5, 10, 15, 20, 30, 45, 60];
 
 export default function DoctorScheduleForm({
   open,
@@ -35,10 +37,11 @@ export default function DoctorScheduleForm({
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === "ar";
   const timeFormat = isRTL ? "HH:mm" : "hh:mm A";
+
   const [selectedDoctor, setSelectedDoctor] = useState(defaultDoctorId);
   const [selectedBranch, setSelectedBranch] = useState(defaultBranchId);
 
-  // ------------------ Queries ------------------
+  // ---------------- Queries ----------------
 
   const { data: branches = [] } = useQuery({
     queryKey: ["branches"],
@@ -72,14 +75,13 @@ export default function DoctorScheduleForm({
       schedulesService.getSchedules(selectedDoctor, selectedBranch),
     enabled: !!selectedDoctor || !!selectedBranch,
   });
-  console.log("Schedules:", schedules);
 
-  // ------------------ Mutations ------------------
+  // ---------------- Mutations ----------------
 
   const createMutation = useMutation({
     mutationFn: schedulesService.create,
     onSuccess: async () => {
-      message.success("Schedule created");
+      message.success(t("doctor_schedule_created"));
       form.resetFields();
       await refetch();
       onSuccess();
@@ -92,16 +94,13 @@ export default function DoctorScheduleForm({
   const deleteMutation = useMutation({
     mutationFn: schedulesService.remove,
     onSuccess: async () => {
-      message.success("Schedule deleted");
+      message.success(t("doctor_schedule_deleted"));
       await refetch();
       onSuccess();
     },
-    onError: (error) => {
-      message.error(error?.response?.data?.message || "Error");
-    },
   });
 
-  // ------------------ Effects ------------------
+  // ---------------- Effects ----------------
 
   useEffect(() => {
     if (open) {
@@ -119,7 +118,7 @@ export default function DoctorScheduleForm({
     }
   }, [open, defaultDoctorId, defaultBranchId]);
 
-  // ------------------ Submit ------------------
+  // ---------------- Submit ----------------
 
   const onFinish = (values) => {
     const payload = {
@@ -128,13 +127,14 @@ export default function DoctorScheduleForm({
       weekDay: values.weekDay,
       startTime: values.startTime.format("HH:mm"),
       endTime: values.endTime.format("HH:mm"),
+      slotMinutes: values.slotMinutes || 30,
       isActive: true,
     };
 
     createMutation.mutate(payload);
   };
 
-  // ------------------ UI ------------------
+  // ---------------- UI ----------------
 
   return (
     <Drawer
@@ -149,6 +149,7 @@ export default function DoctorScheduleForm({
       <Spin spinning={loadingSchedules}>
         <Form layout="vertical" form={form} onFinish={onFinish}>
           <Row gutter={[16, 16]}>
+            {/* Doctor */}
             <Col xs={24} md={12}>
               <Form.Item
                 name="doctorId"
@@ -168,6 +169,7 @@ export default function DoctorScheduleForm({
               </Form.Item>
             </Col>
 
+            {/* Branch */}
             <Col xs={24} md={12}>
               <Form.Item
                 name="branchId"
@@ -187,7 +189,8 @@ export default function DoctorScheduleForm({
               </Form.Item>
             </Col>
 
-            <Col xs={24} md={8}>
+            {/* Weekday */}
+            <Col xs={24} md={6}>
               <Form.Item
                 name="weekDay"
                 label={t("doctor_schedule_weekday")}
@@ -203,46 +206,70 @@ export default function DoctorScheduleForm({
               </Form.Item>
             </Col>
 
-            <Col xs={12} md={8}>
+            {/* Start */}
+            <Col xs={12} md={6}>
               <Form.Item
                 name="startTime"
                 label={t("doctor_schedule_start")}
-                rules={[
-                  { required: true },
-                  {
-                    validator: (_, value) => {
-                      if (!value) return Promise.resolve();
-                      const m = value.minute();
-                      if (m === 0 || m === 30) return Promise.resolve();
-                      return Promise.reject(
-                        new Error(t("doctor_schedule_minutes_validation")),
-                      );
-                    },
-                  },
-                ]}
-              >
-                <TimePicker
-                  format={timeFormat}
-                  minuteStep={30}
-                  style={{ width: "100%" }}
-                />
-              </Form.Item>
-            </Col>
-
-            <Col xs={12} md={8}>
-              <Form.Item
-                name="endTime"
-                label={t("doctor_schedule_end")}
                 rules={[{ required: true }]}
               >
                 <TimePicker
                   format={timeFormat}
-                  minuteStep={30}
+                  minuteStep={5}
                   style={{ width: "100%" }}
                 />
               </Form.Item>
             </Col>
 
+            {/* End */}
+            <Col xs={12} md={6}>
+              <Form.Item
+                name="endTime"
+                label={t("doctor_schedule_end")}
+                dependencies={["startTime"]}
+                rules={[
+                  { required: true },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      const start = getFieldValue("startTime");
+                      if (!start || !value) return Promise.resolve();
+
+                      if (value.isAfter(start)) return Promise.resolve();
+
+                      return Promise.reject(
+                        new Error(t("doctor_schedule_end_after_start")),
+                      );
+                    },
+                  }),
+                ]}
+              >
+                <TimePicker
+                  format={timeFormat}
+                  minuteStep={5}
+                  style={{ width: "100%" }}
+                />
+              </Form.Item>
+            </Col>
+
+            {/* Slot Duration */}
+            <Col xs={24} md={6}>
+              <Form.Item
+                name="slotMinutes"
+                label={t("doctor_schedule_slot_duration")}
+                initialValue={30}
+                rules={[{ required: true }]}
+              >
+                <Select>
+                  {SLOT_OPTIONS.map((m) => (
+                    <Select.Option key={m} value={m}>
+                      {m} {t("minutes")}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+
+            {/* Add */}
             <Col xs={24}>
               <Button
                 type="primary"
@@ -257,6 +284,7 @@ export default function DoctorScheduleForm({
           </Row>
         </Form>
 
+        {/* Schedule List */}
         <div className="schedule-list">
           {!selectedDoctor && !selectedBranch ? (
             <Empty description={t("doctor_schedule_select_doctor_branch")} />
@@ -277,11 +305,10 @@ export default function DoctorScheduleForm({
                   ]}
                 >
                   <List.Item.Meta
-                    title={`${t(getWeekdayKey(item.weekDay))} — ${dayjs(
-                      item.startTime,
-                    ).format(timeFormat)} - ${dayjs(item.endTime).format(
-                      timeFormat,
-                    )}`}
+                    title={`${t(getWeekdayKey(item.weekDay))} — 
+                      ${dayjs(item.startTime).format(timeFormat)} - 
+                      ${dayjs(item.endTime).format(timeFormat)}
+                      (${item.slotMinutes || 30} ${t("minutes")})`}
                     description={
                       <>
                         👨‍⚕️ {item.doctor?.name}

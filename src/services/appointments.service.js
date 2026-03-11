@@ -10,6 +10,12 @@ const appointmentsService = {
       params,
     }),
 
+  deleteAppointment: (id) =>
+    apiRequest({
+      method: "delete",
+      url: `${API_URL}/${id}`,
+    }),
+
   getAppointmentById: (id) =>
     apiRequest({
       method: "get",

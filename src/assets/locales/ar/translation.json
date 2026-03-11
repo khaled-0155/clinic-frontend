@@ -294,5 +294,9 @@
   "progress_update_failed": "فشل في تحديث التقدم",
   "progress_history": "سجل التقدم",
 
-  "no_progress": "لا يوجد سجل تقدم"
+  "no_progress": "لا يوجد سجل تقدم",
+  "Delete": "حذف",
+  "DeleteAppointment": "حذف الموعد",
+  "DeleteAppointmentConfirm": "هل أنت متأكد أنك تريد حذف هذا الموعد؟",
+  "AppointmentDeleted": "تم حذف الموعد بنجاح"
 }
