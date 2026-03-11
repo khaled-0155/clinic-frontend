@@ -81,6 +81,8 @@ export default function AppointmentsWidget() {
     t("Dec"),
   ];
 
+  console.log(dayAppointments);
+
   return (
     <Card
       loading={isLoading}
@@ -164,7 +166,8 @@ export default function AppointmentsWidget() {
                     }}
                   >
                     <ClockCircleOutlined />
-                    {dayjs(a.startTime).format("HH:mm")} — {a.doctor}
+                    {a.startTime}
+                    {a.endTime && ` - ${a.endTime}`} — {a.doctor}{" "}
                   </div>
                 </div>
               </div>
