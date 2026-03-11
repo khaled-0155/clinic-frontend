@@ -20,7 +20,6 @@ import {
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-
 import appointmentsService from "../services/appointments.service";
 import branchesService from "../services/branches.service";
 import patientsService from "../services/patients.service";
@@ -40,7 +39,7 @@ export default function AppointmentForm({
   const timeFormat = isRTL ? "HH:mm" : "hh:mm A";
 
   const [form] = Form.useForm();
-  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selectedSlots, setSelectedSlots] = useState([]);
 
   // dropdown data
   const { data: doctorsResp } = useQuery({
@@ -105,7 +104,7 @@ export default function AppointmentForm({
     keepPreviousData: true,
   });
 
-  console.log("slotsResp", error);
+  console.log(slotsResp);
 
   const selectedPatientId = Form.useWatch("patientId", form);
 
@@ -121,7 +120,7 @@ export default function AppointmentForm({
     onSuccess: () => {
       message.success(t("AppointmentCreated") || "Appointment created");
       form.resetFields();
-      setSelectedSlot(null);
+      setSelectedSlots([]);
       onSuccess && onSuccess();
       onClose();
     },
@@ -137,10 +136,8 @@ export default function AppointmentForm({
   }, [patientId, form]);
 
   useEffect(() => {
-    setSelectedSlot(null);
-    // refetch slots if date/doctor/branch changes
+    setSelectedSlots([]); // ✅ correct
     if (doctorId && branchId && formattedDate) refetchSlots();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doctorId, branchId, formattedDate]);
 
   const slots = slotsResp?.slots || [];
@@ -148,17 +145,30 @@ export default function AppointmentForm({
   const availableCount = slots.filter((s) => s.status === "AVAILABLE").length;
 
   const handleSubmit = () => {
-    if (!selectedSlot) {
-      message.warn(t("SelectSlot") || "Please select a slot");
+    if (!selectedSlots.length) {
+      message.warn(t("SelectSlot") || "Please select slots");
       return;
     }
 
-    mutation.mutate({
-      doctorId: selectedSlot.doctorId,
-      branchId: selectedSlot.branchId,
+    const sorted = [...selectedSlots].sort(
+      (a, b) => new Date(a.startTime) - new Date(b.startTime),
+    );
+
+    console.log({
+      doctorId: sorted[0].doctorId,
+      branchId: sorted[0].branchId,
       patientId: form.getFieldValue("patientId"),
-      date: selectedSlot.date,
-      startTime: selectedSlot.startTime,
+      date: sorted[0].date,
+      slotStarts: sorted.map((s) => s.startTime), // ⭐ IMPORTANT
+      packageId: form.getFieldValue("packageId"),
+      price: form.getFieldValue("price"),
+    });
+    mutation.mutate({
+      doctorId: sorted[0].doctorId,
+      branchId: sorted[0].branchId,
+      patientId: form.getFieldValue("patientId"),
+      date: sorted[0].date,
+      slotStarts: sorted.map((s) => s.startTime), // ⭐ IMPORTANT
       packageId: form.getFieldValue("packageId"),
       price: form.getFieldValue("price"),
     });
@@ -171,7 +181,7 @@ export default function AppointmentForm({
       onClose={() => {
         onClose();
         form.resetFields();
-        setSelectedSlot(null);
+        setSelectedSlots([]);
       }}
       open={open}
       destroyOnClose
@@ -354,11 +364,33 @@ export default function AppointmentForm({
                 return (
                   <Col key={s.startTime} xs={12} sm={8} md={6}>
                     <Card
+                      className={
+                        selectedSlots?.some(
+                          (slot) => slot.startTime === s.startTime,
+                        )
+                          ? "selected-slot"
+                          : ""
+                      }
                       hoverable={isAvailable}
-                      bordered={selectedSlot?.startTime === s.startTime}
+                      bordered={selectedSlots?.some(
+                        (slot) => slot.startTime === s.startTime,
+                      )}
                       onClick={() => {
                         if (!isAvailable) return;
-                        setSelectedSlot(s);
+
+                        setSelectedSlots((prev = []) => {
+                          const exists = prev.find(
+                            (slot) => slot.startTime === s.startTime,
+                          );
+
+                          if (exists) {
+                            return prev.filter(
+                              (slot) => slot.startTime !== s.startTime,
+                            );
+                          }
+
+                          return [...prev, s];
+                        });
                       }}
                       bodyStyle={{
                         display: "flex",
@@ -405,7 +437,7 @@ export default function AppointmentForm({
             onClick={() => {
               onClose();
               form.resetFields();
-              setSelectedSlot(null);
+              setSelectedSlots([]); // reset to empty array
             }}
             style={{ marginRight: 8 }}
           >
@@ -414,7 +446,7 @@ export default function AppointmentForm({
 
           <Button
             type="primary"
-            disabled={!selectedSlot}
+            disabled={!selectedSlots?.length}
             onClick={handleSubmit}
             loading={mutation.isLoading}
           >
