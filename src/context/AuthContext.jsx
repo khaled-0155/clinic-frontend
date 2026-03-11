@@ -48,7 +48,6 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     await signIn(credentials);
     const data = await fetchProfile();
-    console.log(data);
     return data;
   };
 

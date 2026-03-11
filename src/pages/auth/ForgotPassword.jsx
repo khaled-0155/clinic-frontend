@@ -24,7 +24,6 @@ export default function ForgotPassword() {
 
       form.resetFields();
     } catch (error) {
-      console.log(error);
       message.error(error?.response?.data?.message || t("error"));
     } finally {
       setLoading(false);

@@ -104,8 +104,6 @@ export default function AppointmentForm({
     keepPreviousData: true,
   });
 
-  console.log(slotsResp);
-
   const selectedPatientId = Form.useWatch("patientId", form);
 
   const { data: patientPackages } = useQuery({
@@ -154,15 +152,6 @@ export default function AppointmentForm({
       (a, b) => new Date(a.startTime) - new Date(b.startTime),
     );
 
-    console.log({
-      doctorId: sorted[0].doctorId,
-      branchId: sorted[0].branchId,
-      patientId: form.getFieldValue("patientId"),
-      date: sorted[0].date,
-      slotStarts: sorted.map((s) => s.startTime), // ⭐ IMPORTANT
-      packageId: form.getFieldValue("packageId"),
-      price: form.getFieldValue("price"),
-    });
     mutation.mutate({
       doctorId: sorted[0].doctorId,
       branchId: sorted[0].branchId,

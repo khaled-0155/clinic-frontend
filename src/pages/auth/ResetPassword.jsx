@@ -30,7 +30,6 @@ export default function ResetPassword() {
 
       navigate("/login");
     } catch (error) {
-      console.log(error);
       message.error(error?.response?.data?.message || t("error"));
     } finally {
       setLoading(false);

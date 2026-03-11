@@ -63,8 +63,6 @@ export default function DoctorDetails() {
     enabled: !!id,
   });
 
-  console.log("Appointments Data:", appointmentsResp);
-
   if (isLoading) return <Spin />;
 
   const stats = doctor?.stats || {
@@ -75,8 +73,6 @@ export default function DoctorDetails() {
     uniquePatients: 0,
     totalSessions: 0,
   };
-
-  console.log("Doctor Details:", doctor);
 
   const columns = [
     {

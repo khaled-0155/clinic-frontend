@@ -5,7 +5,6 @@ import { authService } from "../services/auth.service";
 ========================= */
 export const signIn = async (credentials) => {
   const data = await authService.signIn(credentials);
-  console.log("Login response:", data);
   if (data?.token) {
     localStorage.setItem("accessToken", data.token);
   }

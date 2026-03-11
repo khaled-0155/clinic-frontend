@@ -18,8 +18,6 @@ export const authService = {
     }),
 
   resetPassword: (data) => {
-    console.log(data);
-
     return apiRequest({
       method: "post",
       url: `${API_URL}/reset-password`,
